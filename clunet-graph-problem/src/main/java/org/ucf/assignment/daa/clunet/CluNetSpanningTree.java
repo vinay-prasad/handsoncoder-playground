@@ -4,17 +4,50 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
+import org.apache.log4j.Logger;
+/* 
+ */
+/***
+ * This class represents a spanning tree of graph G = (V,E) where 
+ *    -	V is number of vertices 
+ *    -	graphLinks is a list of edges of graph represented by CommunicationLink 
+ *    -	mstLinks is a list of edges of spanning tree represented by CommunicationLink
+ **/
 public class CluNetSpanningTree {
+	public static final Logger LOG = Logger.getLogger(CluNetSpanningTree.class);
 	private int V;
 	private List<CommunicationLink> graphLinks;
 	private List<CommunicationLink> mstLinks;
 
-	public CluNetSpanningTree(int v, List<CommunicationLink> graphLinks) {
+	public CluNetSpanningTree(CluNetConnectedGraph graph) {
 		super();
+		V = graph.getV();
+		this.graphLinks = graph.getGraphLinks();
+		mstLinks = new ArrayList<CommunicationLink>(V - 1);
+	}
+	
+	public int getV() {
+		return V;
+	}
+
+	public void setV(int v) {
 		V = v;
+	}
+
+	public List<CommunicationLink> getGraphLinks() {
+		return graphLinks;
+	}
+
+	public void setGraphLinks(List<CommunicationLink> graphLinks) {
 		this.graphLinks = graphLinks;
-		mstLinks = new ArrayList<CommunicationLink>(V-1);
+	}
+
+	public List<CommunicationLink> getMstLinks() {
+		return mstLinks;
+	}
+
+	public void setMstLinks(List<CommunicationLink> mstLinks) {
+		this.mstLinks = mstLinks;
 	}
 
 	private int findParent(int v, int[] parent) {
@@ -24,7 +57,31 @@ public class CluNetSpanningTree {
 		return findParent(parent[v], parent);
 	}
 
-	public List<CommunicationLink>  getMaxSpanningTree() {
+	/**
+	 * Prints the contents of tree G =(V,V-1) in terms of its edges
+	 */
+	public void printTreeLinks() {
+		LOG.info("Generated Spanning Tree G = (" + this.V + "," + this.mstLinks.size() + ")");
+		LOG.info("Tree G = (source, destination, bandwidth), (source, destination, bandwidth), .. \n ");
+		if (this.mstLinks.size() > 0) {
+			for (int i = 0; i < this.mstLinks.size() - 1; i++) {
+				LOG.info(this.mstLinks.get(i).toString() + ",");
+			}
+			LOG.info(this.mstLinks.get(mstLinks.size() - 1));
+		} else {
+			LOG.info("[]");
+		}
+		LOG.info("\n");
+	}
+
+	public void convertToMaxSpanningTree() {
+		getMaxSpanningTree();
+	}
+
+	/**
+	 * Uses Kruskal's algorithm to generate Maximum Spanning tree
+	 */
+	public List<CommunicationLink> getMaxSpanningTree() {
 		Collections.sort(graphLinks);
 
 		// union
@@ -48,12 +105,6 @@ public class CluNetSpanningTree {
 			}
 			i++;
 		}
-		System.out.println(String.format("%-12s|%-12s|%12s", "source", "destination", "bandwidth"));
-		for (CommunicationLink link : mstLinks) {
-			System.out.println(String.format("%-12s|%-12s|%12s", link.sourceNode, link.destinationNode,
-					link.bandwidth));
-		}
 		return mstLinks;
-		
 	}
 }

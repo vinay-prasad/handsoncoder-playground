@@ -4,9 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.apache.log4j.Logger;
 import org.ucf.assignment.daa.clunet.CluNetConnectedGraph;
 
 public class Utils {
+	public static final Logger LOG = Logger.getLogger(Utils.class);
+
 	/**
 	 * Returns a CluNetConnectedGraph instance with provided vertices, edges, and random weights
 	 * @param V total number of vertices
@@ -14,7 +17,7 @@ public class Utils {
 	 * @return
 	 */
 	public static CluNetConnectedGraph getConnectedGraph(int V, int E) {
-		System.out.println("Generating Graph for G = (" + V + "," + E + ")");
+		LOG.info("Generating Graph for G = (" + V + "," + E + ")");
 		Set<Integer> bandWidthSet = new HashSet<Integer>();
 		Set<String> edgesSet = new HashSet<String>();
 		int bandwidth;
@@ -48,8 +51,8 @@ public class Utils {
 	 * @return
 	 */
 	public static CluNetConnectedGraph getConnectedGraph(int V) {
-		int E = V *2 -1;
-		System.out.println("Generating Graph for G = (" + V + "," + E + ")");
+		int E = V < 5 ? (V + V/4) : (V + V/2);
+		LOG.info("Generating Graph for G = (" + V + "," + E + ")");
 		Set<Integer> bandWidthSet = new HashSet<Integer>();
 		Set<String> edgesSet = new HashSet<String>();
 		int bandwidth;
@@ -113,18 +116,20 @@ public class Utils {
 	 * @return
 	 */
 	public static CluNetConnectedGraph getRandomConnectedGraph() {
-		int V = ThreadLocalRandom.current().nextInt(0, 1001);
+		int V = ThreadLocalRandom.current().nextInt(10, 1002);
 		return getConnectedGraph(V);
 	}
 
-	public static void main(String[] args) {
-		System.out.println(ThreadLocalRandom.current().nextInt(0, 6 + 1));
-		System.out.println(ThreadLocalRandom.current().nextInt(0, 6 + 1));
-
-		CluNetConnectedGraph graph = getRandomConnectedGraph();
-		graph.printGraphLinks();
-		
-		CluNetConnectedGraph graph50 = getConnectedGraph(50);
-		graph50.printGraphLinks();
+	
+	/**
+	 * Returns a random number between 0 to v excluding i
+	 */
+	public static int getRandomVertex(int v, int i) {
+		int random = ThreadLocalRandom.current().nextInt(0, v);
+		if (random != i) {
+			return random;
+		} else {
+			return getRandomVertex(v, i);
+		}
 	}
 }

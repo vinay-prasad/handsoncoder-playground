@@ -1,0 +1,64 @@
+<h1 id="clulink-networking-problems-solution">CluLink Networking problem's solution</h1>
+<p>With this java-maven based application I am costructing Spanning tree for a given graph in order to achive the best bottleneck rate between any two nodes.</p>
+<h2 id="pre-requisites">Pre-requisites</h2>
+<h3 id="java-7-or-higher">Java 7 or higher</h3>
+<ul>
+<li>Download jdk from <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">oracle-downloads</a></li>
+<li>Extract binaries and set JAVA_HOME system variables e.g &quot;C:Files1.8.0_181&quot;</li>
+<li>Add %JAVA_HOME%/bin to system path variable e.g {exisiting_path};%JAVA_HOME%/bin</li>
+<li>Verify installation with running command &quot;java -version&quot; ### Maven 3.5.x or higher</li>
+<li>Download maven binary zip file from <a href="http://maven.apache.org/download.cgi">maven-downloads</a> e.g apache-maven-3.6.0-bin.zip</li>
+<li>Extract binaries and set MAVEN_HOME and M2_HOME system variables e.g &quot;C:Files-maven-3.5.4&quot;</li>
+<li>Add %MAVEN_HOME%/bin to system path variable e.g {exisiting_path};%MAVEN_HOME%/bin</li>
+<li>Verify installation with running command &quot;mvn -version&quot;</li>
+</ul>
+<h2 id="executing-test-cases">Executing Test cases</h2>
+<p>The test cases are organized as standard maven Junit tests under src/test/java while the source code lived under src/main/java</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Task</th>
+<th align="left">Maven Command</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Build</td>
+<td align="left">mvn clean install -Dmaven.test.skip=true</td>
+</tr>
+<tr class="even">
+<td align="left">Build and Execute test cases</td>
+<td align="left">mvn clean install</td>
+</tr>
+<tr class="odd">
+<td align="left">Execute all tests</td>
+<td align="left">mvn clean test</td>
+</tr>
+<tr class="even">
+<td align="left">Execute PerformanceTest</td>
+<td align="left">mvn clean -Dtest=PerformanceMetricsTest test</td>
+</tr>
+<tr class="odd">
+<td align="left">Execute GenerateTest</td>
+<td align="left">mvn clean -Dtest=GenerateConnectedGraphTest test</td>
+</tr>
+<tr class="even">
+<td align="left">Execute VerifyTest</td>
+<td align="left">mvn clean -Dtest=BestBottleneckPathTest test</td>
+</tr>
+<tr class="odd">
+<td align="left">Execute DemoTest</td>
+<td align="left">mvn clean -Dtest=DemoTest test</td>
+</tr>
+</tbody>
+</table>
+<p>Moreover, these tests can be executed directly from IDE eclipse, STS, Intellij etc </p>
+<h2 id="logging">Logging</h2>
+<ul>
+<p>The application can log on both console and file. Currently the file logging is turned off. To enable update root logger in src/main/resources/log4j.xml</p>
+</ul>
+<h2 id="reports">Reports</h2>
+<ul>
+<li>Performance metrics are generated under target/results/</li>
+<li>JUnit reports are generated under target/surefire-reports/</li>
+</ul>
